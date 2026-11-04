@@ -19,7 +19,7 @@
 
 ## Jungle Dash
 
-A complete, mobile-friendly endless runner. Help Ruby race through the jungle, jump over rocks, slide under hanging vines, and collect golden berries while a mischievous monkey mob gives chase.
+A mobile-friendly, anime-inspired jungle runner. Help Ruby jump over rocks, slide under hanging vines, and collect golden berries while a mischievous monkey mob gives chase. Dodge 50 obstacles to win and find Ruby relaxing in a quiet grove; collide with a hazard and the monkeys drag her into the dark jungle.
 
 ### Play
 
