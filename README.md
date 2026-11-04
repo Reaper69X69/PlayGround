@@ -16,3 +16,11 @@
 - 👤 [Explore the creator's projects](https://go.ondev.store/Reaper69X69).
 - 🌍 [Create with OMGithub](https://go.ondev.store/).
 <!-- omgithub:readme:end -->
+
+## Jungle Dash
+
+A complete, mobile-friendly endless runner. Help Ruby race through the jungle, jump over rocks, slide under hanging vines, and collect golden berries while a mischievous monkey mob gives chase.
+
+### Play
+
+Open `index.html` in a modern browser, or serve this folder with any static web server. Press **Start running**, then use **↑ / Space** to jump and **↓** to slide. On touchscreens, swipe up or down (or tap the on-screen arrows).
