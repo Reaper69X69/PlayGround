@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#171222">
+<meta name="description" content="A moonlit royal game of rock, paper, scissors. Challenge adult Princess Aurelia in a playful wardrobe duel.">
+<title>Moonlit Janken — The Princess's Challenge</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span>Moonlit Janken</span></div><div class="top-actions"><button class="icon-btn" id="soundBtn" aria-label="Toggle sound" title="Sound off">♩</button><button class="icon-btn" id="rulesBtn" aria-label="How to play" title="How to play">?</button></div></header>
+<main>
+<div class="intro"><div class="eyebrow"><span class="eyebrow-line"></span> THE ROYAL MIDNIGHT BALL <span class="eyebrow-line"></span></div><h1>The Princess's <em>Challenge</em></h1><p>One hand, one fate. Can you outwit the princess?</p></div>
+<section class="game" aria-label="Rock paper scissors game">
+<div class="portrait-panel">
+<div class="portrait-head"><div><div class="small-label">YOUR OPPONENT</div><div class="name">Princess Aurelia <span class="age">21</span></div></div><div class="crown-icon">♛</div></div>
+<div class="art-stage">
+<div class="moon"></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span><div class="arch"></div>
+<svg id="princess" class="princess" viewBox="0 0 360 500" role="img" aria-label="Princess Aurelia in her royal gown">
+<defs><linearGradient id="hair" x2="1" y2="1"><stop stop-color="#6c3e3a"/><stop offset=".55" stop-color="#a45d4d"/><stop offset="1" stop-color="#5b3438"/></linearGradient><linearGradient id="dress" x2=".8" y2="1"><stop stop-color="#514176"/><stop offset=".5" stop-color="#36294f"/><stop offset="1" stop-color="#241d3d"/></linearGradient><linearGradient id="skin" x2="0" y2="1"><stop stop-color="#f3c9aa"/><stop offset="1" stop-color="#d99e83"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#f6dea0"/><stop offset="1" stop-color="#ba8c4c"/></linearGradient></defs>
+<!-- flowing hair and silhouette -->
+<path fill="url(#hair)" d="M111 132Q89 71 142 44Q197 20 238 58Q275 86 256 174L278 280Q260 305 239 274L121 281Q90 294 83 263Z"/>
+<!-- gown skirt -->
+<path fill="url(#dress)" stroke="#776292" stroke-width="2" d="M135 245Q180 226 225 245Q239 300 266 365L302 484H60L100 365Q124 300 135 245Z"/>
+<path fill="none" stroke="#c39d67" stroke-width="2" opacity=".8" d="M180 268Q170 340 177 479M123 292Q112 363 95 450M237 292Q255 374 280 450"/>
+<!-- arms -->
+<path fill="url(#skin)" stroke="#cb947b" d="M135 264Q111 274 98 323L75 369Q69 379 77 384Q85 388 91 376L121 340Q145 309 154 281Z"/><path fill="url(#skin)" stroke="#cb947b" d="M222 263Q247 273 260 316L282 360Q289 371 282 378Q273 383 266 370L235 338Q211 310 204 281Z"/>
+<!-- neck and bodice base -->
+<path fill="url(#skin)" d="M160 205H201V251Q181 270 160 251Z"/><path fill="#453355" stroke="#c7a576" stroke-width="2" d="M139 245Q158 250 180 266Q203 249 222 245L237 303Q180 325 124 302Z"/>
+<!-- face -->
+<path fill="url(#skin)" stroke="#c78e75" stroke-width="1.5" d="M130 121Q130 69 180 67Q232 69 231 122L223 177Q216 212 180 224Q144 211 137 177Z"/>
+<!-- hair framing and fringe -->
+<path fill="url(#hair)" d="M126 136Q111 86 144 61Q180 34 219 64Q244 83 235 127Q217 113 209 87Q193 116 147 120L139 160Z"/><path fill="url(#hair)" d="M133 120Q115 148 126 222Q111 253 103 236L106 145Q107 112 133 91Z"/><path fill="url(#hair)" d="M226 112Q245 144 234 217Q246 248 257 229L251 139Q249 108 228 91Z"/>
+<!-- features -->
+<path d="M148 150q11-8 22 0M190 150q11-8 22 0" fill="none" stroke="#633d3f" stroke-width="3" stroke-linecap="round"/><ellipse cx="160" cy="158" rx="3" ry="4" fill="#49405a"/><ellipse cx="200" cy="158" rx="3" ry="4" fill="#49405a"/><path d="M178 157l-3 17 7 2M169 188q11 8 22 0" fill="none" stroke="#a65f62" stroke-width="2" stroke-linecap="round"/><path d="M143 176q8 5 15 1M201 177q8 4 15-1" fill="none" stroke="#d88e87" stroke-width="4" opacity=".45"/>
+<!-- tiara -->
+<path fill="url(#gold)" stroke="#f3dc9d" stroke-width="2" d="M143 81L150 47l20 22 11-35 12 35 22-24 4 39Q180 67 143 81Z"/><circle cx="181" cy="51" r="5" fill="#c97782" stroke="#ffe0ac" stroke-width="2"/><circle cx="151" cy="55" r="3" fill="#8ac6c0"/><circle cx="213" cy="55" r="3" fill="#8ac6c0"/>
+<!-- gown collar -->
+<path fill="#846194" stroke="#d7b87e" stroke-width="2" d="M140 245Q159 247 180 266Q201 247 221 245L208 272Q180 281 152 272Z"/><path d="M180 270l-8 17 8 15 8-15Z" fill="#e3bd78"/><circle cx="180" cy="286" r="4" fill="#fff0c8"/>
+<g class="wardrobe w1"><path fill="#745b8c" stroke="#c7a576" stroke-width="2" d="M128 249Q106 259 102 303L82 370Q106 388 131 370L150 289Z"/><path fill="#745b8c" stroke="#c7a576" stroke-width="2" d="M232 249Q254 259 258 303L278 370Q254 388 229 370L210 289Z"/></g>
+<g class="wardrobe w2"><path fill="#554174" stroke="#d8b67a" stroke-width="2" d="M135 244Q157 251 180 264Q203 250 225 244L237 303Q180 325 123 302Z"/><path fill="none" stroke="#b396c0" stroke-width="2" d="M145 263q35 24 70 0"/></g>
+<g class="wardrobe w3"><path fill="#4c426b" stroke="#dfc68c" stroke-width="2" d="M126 250Q151 258 180 273Q209 258 234 250L250 333Q180 350 110 333Z"/><path d="M145 272q35 26 70 0" fill="none" stroke="#d9bc86" stroke-width="3"/><path d="M180 282l-9 13 9 14 9-14Z" fill="#e5c27e"/></g>
+<!-- hands and sparkle -->
+<path fill="url(#skin)" d="M72 370q-10 4-13 13l-8 6q-5 5 0 8 4 2 9-3l11-6 7-11ZM283 360q11 4 14 13l8 6q5 5 0 8-4 2-9-3l-11-6-7-11Z"/>
+</svg>
+<div class="stage-caption"><span class="caption-dot"></span><span id="outfitLabel">ROYAL BALL GOWN</span></div>
+</div>
+<div class="wardrobe-bar"><div class="wardrobe-copy"><span>WARDROBE REVEAL</span><b id="wardrobeCount">0 / 3</b></div><div class="progress"><i id="progressFill"></i></div></div>
+</div>
+<div class="play-panel">
+<div class="round-line"><span class="round-pill" id="roundLabel">ROUND 1</span><span class="score-label" id="scoreLabel">FIRST TO 3 WINS</span></div>
+<div class="score-row"><div class="score-card"><span class="score-name">YOU</span><strong id="playerScore">0</strong><small>Challenger</small></div><div class="score-vs">VS</div><div class="score-card opponent"><span class="score-name">AURELIA</span><strong id="princessScore">0</strong><small>The princess</small></div></div>
+<div class="duel-box" id="duelBox" aria-live="polite"><div class="hands"><div class="hand-slot"><span class="hand-icon" id="playerHand">✦</span><small>YOU</small></div><div class="duel-divider"><span>✧</span></div><div class="hand-slot"><span class="hand-icon" id="princessHand">✦</span><small>AURELIA</small></div></div><div class="result" id="result">Choose your hand to begin</div><div class="quip" id="quip">“A royal challenge! Show me what you’ve got.”</div></div>
+<div class="choose-label">CHOOSE YOUR HAND</div><div class="choices" role="group" aria-label="Choose rock, paper, or scissors"><button class="choice" data-choice="rock"><span class="choice-icon">✊</span><span>Rock</span><kbd>1</kbd></button><button class="choice" data-choice="paper"><span class="choice-icon">✋</span><span>Paper</span><kbd>2</kbd></button><button class="choice" data-choice="scissors"><span class="choice-icon">✌</span><span>Scissors</span><kbd>3</kbd></button></div>
+<div class="hint" id="hint">Rock beats scissors · Paper beats rock · Scissors beat paper</div>
+<div class="bottom-row"><div class="best"><span>✦</span> Matches won <b id="bestScore">0</b></div><button class="reset-btn" id="resetBtn">↻ &nbsp;New game</button></div>
+</div>
+</section>
+</main>
+<footer><span>21+ ADULT CHARACTER · FULLY CLOTHED</span><span>MADE FOR MOONLIT NIGHTS</span></footer>
+</div>
+<div class="modal-backdrop" id="modal" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-modal" id="closeModal" aria-label="Close">×</button><div class="small-label">A ROYAL PRIMER</div><h2 id="modalTitle">How to play</h2><p>Choose rock, paper, or scissors. Rock beats scissors, scissors beat paper, and paper beats rock. A tie means you both play again—no point awarded.</p><p>Be the first to win <b>three rounds</b> to claim the moonlit match. Each victory reveals a new look in Aurelia’s elegant, fully clothed wardrobe.</p><div class="modal-note">Tip: you can also use keys <b>1</b>, <b>2</b>, and <b>3</b>.</div><button class="modal-ok" id="modalOk">Let’s play</button></section></div>
+<script src="game.js"></script>
+</body>
+</html>
