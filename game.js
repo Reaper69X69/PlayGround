@@ -36,6 +36,30 @@
     $('gearPips').setAttribute('aria-valuenow', gear);
     $('gearPips').querySelectorAll('i').forEach((pip, index) => pip.classList.toggle('spent', index >= gear));
   }
+  function updateWardrobe() {
+    const outfits = [
+      'ROYAL BALL GOWN',
+      'NO TIARA',
+      'SLEEVELESS BALL GOWN',
+      'BALL GOWN WITHOUT CAPE',
+      'SATIN COURT DRESS',
+      'OPAQUE SATIN UNDERDRESS'
+    ];
+    const descriptions = [
+      'Princess Aurelia in her royal gown layered over an opaque satin underdress.',
+      'Princess Aurelia without her tiara, wearing her layered royal gown.',
+      'Princess Aurelia in a sleeveless royal gown layered over an opaque satin underdress.',
+      'Princess Aurelia in her royal gown without its cape, layered over an opaque satin underdress.',
+      'Princess Aurelia in an opaque satin court dress.',
+      'Princess Aurelia in her opaque satin underdress, which remains fully covering.'
+    ];
+    $('princess').setAttribute('class', `princess level-${level}`);
+    $('princess').setAttribute('aria-label', descriptions[level]);
+    $('wardrobeCount').textContent = `${level} / 5`;
+    $('progress').setAttribute('aria-valuenow', level);
+    $('progressFill').style.width = `${level * 20}%`;
+    $('outfitLabel').textContent = outfits[level];
+  }
   function choose(choice) {
     if (locked) return;
     const keys = Object.keys(hands), reply = keys[Math.floor(Math.random() * keys.length)];
@@ -54,16 +78,19 @@
     round++;
     const won = beats[choice] === reply;
     if (won) {
-      player++; level = Math.min(3, level + 1);
+      player++; level = Math.min(5, level + 1);
       $('duelBox').classList.add('won');
       $('result').textContent = `${names[choice]} beats ${names[reply]} — you win!`;
       $('quip').textContent = `“${princessLines.win[Math.floor(Math.random() * 3)]}”`;
-      $('hint').textContent = level === 1 ? 'Her outer sleeves are removed; the satin gown remains.' : level === 2 ? 'The overskirt is removed; her satin court dress remains.' : 'The last outer layer is removed—Aurelia remains fully clothed!';
-      $('princess').className.baseVal = `princess level-${level}`;
-      $('princess').setAttribute('aria-label', ['Princess Aurelia in her royal gown layered over an opaque satin underdress.', 'Princess Aurelia in a sleeveless royal gown layered over an opaque satin underdress.', 'Princess Aurelia in an opaque satin court dress.', 'Princess Aurelia in her opaque satin underdress.'][level]);
-      $('wardrobeCount').textContent = `${level} / 3`;
-      $('progressFill').style.width = `${level * 33.333}%`;
-      $('outfitLabel').textContent = ['ROYAL BALL GOWN', 'SLEEVELESS BALL GOWN', 'SATIN COURT DRESS', 'SATIN UNDERDRESS'][level];
+      $('hint').textContent = [
+        'A point for you. Aurelia’s royal layers are still in place.',
+        'Her tiara is set aside; the opaque satin underdress remains on.',
+        'Her outer sleeves are removed; the satin gown remains.',
+        'Her cape is removed; the satin gown remains.',
+        'The overskirt is removed; her satin court dress remains.',
+        'Her final outer layer is gone; Aurelia remains fully covered by her opaque satin underdress.'
+      ][level];
+      updateWardrobe();
       tone(660, .15); setTimeout(() => tone(880, .18), 90);
     } else {
       princess++; gear--; updateGear(); $('duelBox').classList.add('lost');
@@ -72,7 +99,7 @@
       $('hint').textContent = gear > 0 ? `Your knight loses a gear point. ${gear} remain.` : 'Your knight is out of gear!'; tone(300, .18);
     }
     updateScore();
-    if (player === 3) finish(true);
+    if (player === 5) finish(true);
     else if (gear === 0) finish(false);
   }
   function finish(victory) {
@@ -83,11 +110,18 @@
     $('result').textContent = victory ? 'The moonlit match is yours!' : 'Your knight is out of gear.';
     $('quip').textContent = victory ? '“You’ve earned the crown—and a rematch, anytime.”' : '“Aurelia takes the match. Rally your knight and try again.”';
     $('hint').textContent = victory ? 'Start a new game to play again.' : 'The princess stands victorious over your fallen shield.';
+    gameOver.classList.toggle('victory', victory);
+    $('gameOverKicker').textContent = victory ? 'THE CROWN IS YOURS' : 'THE CROWN HOLDS';
+    $('gameOverTitle').textContent = victory ? 'Victory!' : 'Game Over';
+    $('gameOverCopy').textContent = victory
+      ? 'Aurelia applauds your five-point win. The knight claims the throne in full armor, and her opaque satin underdress remains on.'
+      : 'Aurelia claims the match. Your fully armored knight has fallen, and the princess stands victorious over his shield.';
+    $('gameOverReset').textContent = victory ? 'Play again' : 'Challenge again';
+    gameOver.classList.add('open'); gameOver.setAttribute('aria-hidden', 'false'); $('gameOverReset').focus();
     if (victory) {
       best++; localStorage.setItem('moonlit-best', best); $('bestScore').textContent = best;
       tone(740, .2); setTimeout(() => tone(990, .28), 160);
     } else {
-      gameOver.classList.add('open'); gameOver.setAttribute('aria-hidden', 'false'); $('gameOverReset').focus();
       tone(220, .3);
     }
   }
@@ -95,16 +129,18 @@
   $('resetBtn').addEventListener('click', () => {
     player = 0; princess = 0; round = 1; level = 0; gear = 5; locked = false;
     document.querySelectorAll('.choice').forEach(button => button.disabled = false);
-    gameOver.classList.remove('open'); gameOver.setAttribute('aria-hidden', 'true'); updateGear();
+    gameOver.classList.remove('open', 'victory'); gameOver.setAttribute('aria-hidden', 'true'); updateGear();
     $('duelBox').classList.remove('won', 'lost', 'tie');
     $('playerHand').textContent = $('princessHand').textContent = '✦';
     $('result').textContent = 'Choose your hand to begin';
     $('quip').textContent = '“A royal challenge! Show me what you’ve got.”';
     $('hint').textContent = 'Rock beats scissors · Paper beats rock · Scissors beat paper';
-    $('princess').className.baseVal = 'princess';
-    $('princess').setAttribute('aria-label', 'Princess Aurelia in her royal gown layered over an opaque satin underdress.');
-    $('wardrobeCount').textContent = '0 / 3'; $('progressFill').style.width = '0%'; $('outfitLabel').textContent = 'ROYAL BALL GOWN';
-    $('scoreLabel').textContent = 'FIRST TO 3 WINS';
+    updateWardrobe();
+    $('gameOverKicker').textContent = 'THE CROWN HOLDS';
+    $('gameOverTitle').textContent = 'Game Over';
+    $('gameOverCopy').textContent = 'Aurelia claims the match. Your fully armored knight has fallen, and the princess stands victorious over his shield.';
+    $('gameOverReset').textContent = 'Challenge again';
+    $('scoreLabel').textContent = 'FIRST TO 5 WINS';
     updateScore();
   });
   $('gameOverReset').addEventListener('click', () => $('resetBtn').click());
