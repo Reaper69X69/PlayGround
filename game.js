@@ -1,5 +1,6 @@
 (() => {
   const $ = (id) => document.getElementById(id);
+  const gameOver = $('gameOver');
   const hands = { rock: '✊', paper: '✋', scissors: '✌' };
   const names = { rock: 'Rock', paper: 'Paper', scissors: 'Scissors' };
   const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
@@ -8,7 +9,7 @@
     loss: ['A royal victory! Shall we go again?', 'My move! You nearly had me.', 'A point for the crown. Your turn!'],
     tie: ['Great minds think alike. Again!', 'A tie! Fate wants another round.', 'We matched—let’s try once more.']
   };
-  let player = 0, princess = 0, round = 1, level = 0, locked = false, soundOn = false;
+  let player = 0, princess = 0, round = 1, level = 0, gear = 5, locked = false, soundOn = false;
   let best = Number(localStorage.getItem('moonlit-best') || 0);
   $('bestScore').textContent = best;
 
@@ -29,6 +30,11 @@
     $('playerScore').textContent = player;
     $('princessScore').textContent = princess;
     $('roundLabel').textContent = `ROUND ${round}`;
+  }
+  function updateGear() {
+    $('gearLabel').textContent = `${gear} / 5`;
+    $('gearPips').setAttribute('aria-valuenow', gear);
+    $('gearPips').querySelectorAll('i').forEach((pip, index) => pip.classList.toggle('spent', index >= gear));
   }
   function choose(choice) {
     if (locked) return;
@@ -52,48 +58,56 @@
       $('duelBox').classList.add('won');
       $('result').textContent = `${names[choice]} beats ${names[reply]} — you win!`;
       $('quip').textContent = `“${princessLines.win[Math.floor(Math.random() * 3)]}”`;
-      $('hint').textContent = level < 3 ? 'A new royal look revealed!' : 'You’re one step closer to the crown!';
+      $('hint').textContent = level === 1 ? 'Her outer sleeves are removed; the satin gown remains.' : level === 2 ? 'The overskirt is removed; her satin court dress remains.' : 'The last outer layer is removed—Aurelia remains fully clothed!';
       $('princess').className.baseVal = `princess level-${level}`;
+      $('princess').setAttribute('aria-label', ['Princess Aurelia in her royal gown layered over an opaque satin underdress.', 'Princess Aurelia in a sleeveless royal gown layered over an opaque satin underdress.', 'Princess Aurelia in an opaque satin court dress.', 'Princess Aurelia in her opaque satin underdress.'][level]);
       $('wardrobeCount').textContent = `${level} / 3`;
       $('progressFill').style.width = `${level * 33.333}%`;
-      $('outfitLabel').textContent = ['ROYAL BALL GOWN', 'VELVET EVENING LOOK', 'MIDNIGHT COURT ENSEMBLE', 'MOONLIT VICTORY LOOK'][level];
+      $('outfitLabel').textContent = ['ROYAL BALL GOWN', 'SLEEVELESS BALL GOWN', 'SATIN COURT DRESS', 'SATIN UNDERDRESS'][level];
       tone(660, .15); setTimeout(() => tone(880, .18), 90);
     } else {
-      princess++; $('duelBox').classList.add('lost');
+      princess++; gear--; updateGear(); $('duelBox').classList.add('lost');
       $('result').textContent = `${names[reply]} beats ${names[choice]} — Aurelia wins!`;
       $('quip').textContent = `“${princessLines.loss[Math.floor(Math.random() * 3)]}”`;
-      $('hint').textContent = 'The princess takes this round. Keep going!'; tone(300, .18);
+      $('hint').textContent = gear > 0 ? `Your knight loses a gear point. ${gear} remain.` : 'Your knight is out of gear!'; tone(300, .18);
     }
     updateScore();
-    if (player === 3 || princess === 3) finish(player === 3);
+    if (player === 3) finish(true);
+    else if (gear === 0) finish(false);
   }
   function finish(victory) {
     locked = true;
     document.querySelectorAll('.choice').forEach(button => button.disabled = true);
-    $('roundLabel').textContent = 'MATCH COMPLETE';
+    $('roundLabel').textContent = victory ? 'MATCH COMPLETE' : 'GAME OVER';
     $('scoreLabel').textContent = 'FINAL SCORE';
-    $('result').textContent = victory ? 'The moonlit match is yours!' : 'A royal victory for Aurelia!';
-    $('quip').textContent = victory ? '“You’ve earned the crown—and a rematch, anytime.”' : '“A lovely match! The rematch is yours to call.”';
-    $('hint').textContent = 'Start a new game to play again.';
+    $('result').textContent = victory ? 'The moonlit match is yours!' : 'Your knight is out of gear.';
+    $('quip').textContent = victory ? '“You’ve earned the crown—and a rematch, anytime.”' : '“Aurelia takes the match. Rally your knight and try again.”';
+    $('hint').textContent = victory ? 'Start a new game to play again.' : 'The princess stands victorious over your fallen shield.';
     if (victory) {
       best++; localStorage.setItem('moonlit-best', best); $('bestScore').textContent = best;
       tone(740, .2); setTimeout(() => tone(990, .28), 160);
+    } else {
+      gameOver.classList.add('open'); gameOver.setAttribute('aria-hidden', 'false'); $('gameOverReset').focus();
+      tone(220, .3);
     }
   }
   document.querySelectorAll('.choice').forEach(button => button.addEventListener('click', () => choose(button.dataset.choice)));
   $('resetBtn').addEventListener('click', () => {
-    player = 0; princess = 0; round = 1; level = 0; locked = false;
+    player = 0; princess = 0; round = 1; level = 0; gear = 5; locked = false;
     document.querySelectorAll('.choice').forEach(button => button.disabled = false);
+    gameOver.classList.remove('open'); gameOver.setAttribute('aria-hidden', 'true'); updateGear();
     $('duelBox').classList.remove('won', 'lost', 'tie');
     $('playerHand').textContent = $('princessHand').textContent = '✦';
     $('result').textContent = 'Choose your hand to begin';
     $('quip').textContent = '“A royal challenge! Show me what you’ve got.”';
     $('hint').textContent = 'Rock beats scissors · Paper beats rock · Scissors beat paper';
     $('princess').className.baseVal = 'princess';
+    $('princess').setAttribute('aria-label', 'Princess Aurelia in her royal gown layered over an opaque satin underdress.');
     $('wardrobeCount').textContent = '0 / 3'; $('progressFill').style.width = '0%'; $('outfitLabel').textContent = 'ROYAL BALL GOWN';
     $('scoreLabel').textContent = 'FIRST TO 3 WINS';
     updateScore();
   });
+  $('gameOverReset').addEventListener('click', () => $('resetBtn').click());
   const modal = $('modal');
   function closeModal() { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
   $('rulesBtn').addEventListener('click', () => { modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); $('closeModal').focus(); });
